@@ -1,6 +1,7 @@
 package cage_the_spire.patches.com.megacrit.cardcrawl.cards.AbstractCard;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.evacipated.cardcrawl.modthespire.lib.ByRef;
@@ -11,6 +12,7 @@ import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 
 import java.lang.reflect.Field;
+import java.net.URL;
 
 // Code Quality
 // TODO : MOVE PATCH TO INITIALIZE METHOD (POSTFIX) IN ABSTRACT CARD SO THAT IT IS CALLED ONLY ONCE
@@ -27,7 +29,7 @@ import java.lang.reflect.Field;
 
 public class PostCardHook {
 
-    private static final String NICK_CAGE_FACE_SMALL_PATH = "mods/nick_cage_face_small.png";
+    private static final String NICK_CAGE_FACE_SMALL_PATH = "nick_cage_face_small.png";
     private static final String NICK_CAGE_REGION_NAME = "status/nickCage";
     private static final String NICK_CAGE_CARD_NAME = "Nick Cage";
     private static final String NICK_CAGE_CARD_DESCRIPTION = "Nick Cage";
@@ -48,7 +50,8 @@ public class PostCardHook {
                     atlasChanged = true;
 
                     // Create new nick cage texture
-                    TextureRegion tr = new TextureRegion(ImageMaster.loadImage(NICK_CAGE_FACE_SMALL_PATH));
+                    Texture t = new Texture(Gdx.files.internal(NICK_CAGE_FACE_SMALL_PATH));
+                    TextureRegion tr = new TextureRegion(t);
 
                     // Update artwork
                     Field ca = AbstractCard.class.getDeclaredField("cardAtlas");
@@ -93,7 +96,6 @@ public class PostCardHook {
                                    String rawDescription, CardType type, CardColor color, CardRarity rarity,
                                    CardTarget target, DamageInfo.DamageType dType) {
             System.out.println("Post AbstractCard constructor");
-            System.out.println("imgUrl: " + imgUrl[0]);
             imgUrl[0] = NICK_CAGE_REGION_NAME;
         }
     }
