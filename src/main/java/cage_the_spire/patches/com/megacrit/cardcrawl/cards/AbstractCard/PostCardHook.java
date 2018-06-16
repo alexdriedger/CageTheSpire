@@ -1,8 +1,13 @@
 package cage_the_spire.patches.com.megacrit.cardcrawl.cards.AbstractCard;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.evacipated.cardcrawl.modthespire.lib.ByRef;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.cards.AbstractCard.*;
+import com.megacrit.cardcrawl.cards.DamageInfo;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
 
 import java.lang.reflect.Field;
 
@@ -18,42 +23,80 @@ import java.lang.reflect.Field;
 // Features
 // TODO : MAKE CLOSE UP ART ALSO NICK CAGE
 // TODO : WHEN CARDS UPGRADE, KEEP DESCRIPTION AS "NICK CAGE"
-@SpirePatch(cls = "com.megacrit.cardcrawl.cards.AbstractCard", method = "createCardImage")
+
 public class PostCardHook {
-    private static boolean atlasChanged = false;
+    @SpirePatch(cls = "com.megacrit.cardcrawl.cards.AbstractCard", method = "createCardImage")
+    public static class PostCreateCardImageHook {
+        private static boolean atlasChanged = false;
 
-    public static void Prefix(Object __obj_instance) {
-        System.out.println("Post create card image");
+        public static void Prefix(Object __obj_instance) {
+            System.out.println("Post create card image");
 
-        AbstractCard ac = (AbstractCard) __obj_instance;
-        ac.name = "Nick Cage";
-        ac.rawDescription = "Nick Cage";
-        try {
-            if (!atlasChanged) {
-                System.out.println("Atlas has not been changed from original");
-                atlasChanged = true;
+            AbstractCard ac = (AbstractCard) __obj_instance;
+            ac.name = "Nick Cage";
+            ac.rawDescription = "Nick Cage";
+            try {
+                if (!atlasChanged) {
+                    System.out.println("Atlas has not been changed from original");
+                    atlasChanged = true;
 
-                // New artwork
-                Field ca = AbstractCard.class.getDeclaredField("cardAtlas");
-                ca.setAccessible(true);
+                    // New artwork
+                    Field ca = AbstractCard.class.getDeclaredField("cardAtlas");
+                    ca.setAccessible(true);
 
-                System.out.println("Creating new TextureAtlas");
-                TextureAtlas ta = new TextureAtlas("mods/cards.atlas");
-                ca.set(ac, ta);
+                    System.out.println("Creating new TextureAtlas");
+                    TextureAtlas ta = new TextureAtlas("mods/cards.atlas");
+                    TextureRegion tr = new TextureRegion(ImageMaster.loadImage("mods/nick_cage_face_small.png"));
+                    ta.addRegion("nick_cage", tr);
 
-                // Old Artwork
-                Field oldCa = AbstractCard.class.getDeclaredField("oldCardAtlas");
-                oldCa.setAccessible(true);
-                oldCa.set(ca, ta);
+                    for (TextureAtlas.AtlasRegion t : ta.getRegions()) {
+                        System.out.println(t.name);
+                    }
 
-                System.out.println("Set new TextureAtlas");
+                    ca.set(ac, ta);
+
+                    // Old Artwork
+                    Field oldCa = AbstractCard.class.getDeclaredField("oldCardAtlas");
+                    oldCa.setAccessible(true);
+                    oldCa.set(ca, ta);
+
+                    System.out.println("Set new TextureAtlas");
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+                System.out.println("Could not change card atlas with reflection post");
             }
-        } catch(Exception e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-            System.out.println("Could not change card atlas with reflection post");
         }
     }
+
+    @SpirePatch(
+            cls = "com.megacrit.cardcrawl.cards.AbstractCard",
+            method = SpirePatch.CONSTRUCTOR,
+            paramtypes = {
+                    "java.lang.String",
+                    "java.lang.String",
+                    "java.lang.String",
+                    "java.lang.String",
+                    "int",
+                    "java.lang.String",
+                    "com.megacrit.cardcrawl.cards.AbstractCard$CardType",
+                    "com.megacrit.cardcrawl.cards.AbstractCard$CardColor",
+                    "com.megacrit.cardcrawl.cards.AbstractCard$CardRarity",
+                    "com.megacrit.cardcrawl.cards.AbstractCard$CardTarget",
+                    "com.megacrit.cardcrawl.cards.DamageInfo$DamageType"
+            }
+    )
+    public static class PostAbstractCardConstructorHook{
+        public static void Prefix(Object __obj_instance, String id, String name, String jokeUrl, @ByRef String[] imgUrl, int cost,
+                                   String rawDescription, CardType type, CardColor color, CardRarity rarity,
+                                   CardTarget target, DamageInfo.DamageType dType) {
+            System.out.println("Post AbstractCard constructor");
+            System.out.println("imgUrl: " + imgUrl[0]);
+            imgUrl[0] = "nick_cage";
+        }
+    }
+
 }
 
 //@SpirePatch(cls="com.megacrit.cardcrawl.cards.AbstractCard", method="initialize")
