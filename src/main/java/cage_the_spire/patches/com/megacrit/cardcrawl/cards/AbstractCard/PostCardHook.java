@@ -9,19 +9,13 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.AbstractCard.*;
 import com.megacrit.cardcrawl.cards.DamageInfo;
-import com.megacrit.cardcrawl.helpers.ImageMaster;
 
 import java.lang.reflect.Field;
-import java.net.URL;
 
 // Code Quality
 // TODO : MOVE PATCH TO INITIALIZE METHOD (POSTFIX) IN ABSTRACT CARD SO THAT IT IS CALLED ONLY ONCE
 // TODO : FIX ANGER NOT RENDERING WITH NICK CAGE ART
 // TODO : MOVE NAME AND DESCRIPTION CODE TO CONSTRUCTOR POSTFIX PATCH
-
-// Portability
-// TODO : WRITE A SCRIPT THAT COMBINES BOTH CARD.ATLAS (FROM NEW AND OLD) AND THEN CHANGES ALL XY: #, # TO BE XY: 0, 0
-// TODO : MOVE NEW CARTATLAS AND CARD ASSETS INTO MOD JAR
 
 // Features
 // TODO : MAKE CLOSE UP ART ALSO NICK CAGE
@@ -39,14 +33,14 @@ public class PostCardHook {
         private static boolean atlasChanged = false;
 
         public static void Prefix(Object __obj_instance) {
-            System.out.println("Post create card image");
+            System.out.println("Post createCardImage");
 
             AbstractCard ac = (AbstractCard) __obj_instance;
             ac.name = NICK_CAGE_CARD_NAME;
             ac.rawDescription = NICK_CAGE_CARD_DESCRIPTION;
             try {
                 if (!atlasChanged) {
-                    System.out.println("Atlas has not been changed from original");
+                    System.out.println("Updating TextureAtlas with Nick Cage images");
                     atlasChanged = true;
 
                     // Create new nick cage texture
@@ -95,7 +89,7 @@ public class PostCardHook {
         public static void Prefix(Object __obj_instance, String id, String name, String jokeUrl, @ByRef String[] imgUrl, int cost,
                                    String rawDescription, CardType type, CardColor color, CardRarity rarity,
                                    CardTarget target, DamageInfo.DamageType dType) {
-            System.out.println("Post AbstractCard constructor");
+            System.out.println("Post AbstractCard Constructor");
             imgUrl[0] = NICK_CAGE_REGION_NAME;
         }
     }
@@ -116,42 +110,6 @@ public class PostCardHook {
 //            System.out.println(e.getMessage());
 //            e.printStackTrace();
 //            System.out.println("Could not change card atlas with reflection post");
-//        }
-//    }
-//}
-
-//@SpirePatch(
-//        cls="com.megacrit.cardcrawl.cards.AbstractCard",
-//        method="ctor",
-//        paramtypes={
-//                "java.lang.String",
-//                "java.lang.String",
-//                "java.lang.String",
-//                "java.lang.String",
-//                "int",
-//                "java.lang.String",
-//                "com.megacrit.cardcrawl.cards.AbstractCard$CardType",
-//                "com.megacrit.cardcrawl.cards.AbstractCard$CardColor",
-//                "com.megacrit.cardcrawl.cards.AbstractCard$CardRarity",
-//                "com.megacrit.cardcrawl.cards.AbstractCard$CardTarget",
-//                "com.megacrit.cardcrawl.cards.DamageInfo$DamageType"
-//        }
-//)
-//public class PostCardHook {
-//    public static void Postfix(Object __obj_instance, String id, String name, String jokeUrl, String imgUrl, int cost,
-//                              String rawDescription, CardType type, CardColor color, CardRarity rarity,
-//                              CardTarget target, DamageType dType) {
-//        System.out.println("Post create card constructor");
-//        AbstractCard ac = (AbstractCard) __obj_instance;
-//        ac.assetURL = "mods/nick_cage_face.jpg";
-//        try {
-//            Field portraitImg = AbstractCard.class.getDeclaredField("portraitImg");
-//            portraitImg.setAccessible(true);
-//            portraitImg.set(ac, ImageMaster.loadImage("mods/nick_cage_face.jpg"));
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//            e.printStackTrace();
-//            System.out.println("Could not set card image with reflection post");
 //        }
 //    }
 //}
