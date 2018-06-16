@@ -27,6 +27,11 @@ import java.lang.reflect.Field;
 
 public class PostCardHook {
 
+    private static final String NICK_CAGE_FACE_SMALL_PATH = "mods/nick_cage_face_small.png";
+    private static final String NICK_CAGE_REGION_NAME = "status/nickCage";
+    private static final String NICK_CAGE_CARD_NAME = "Nick Cage";
+    private static final String NICK_CAGE_CARD_DESCRIPTION = "Nick Cage";
+
     @SpirePatch(cls = "com.megacrit.cardcrawl.cards.AbstractCard", method = "createCardImage")
     public static class PostCreateCardImageHook {
         private static boolean atlasChanged = false;
@@ -35,28 +40,28 @@ public class PostCardHook {
             System.out.println("Post create card image");
 
             AbstractCard ac = (AbstractCard) __obj_instance;
-            ac.name = "Nick Cage";
-            ac.rawDescription = "Nick Cage";
+            ac.name = NICK_CAGE_CARD_NAME;
+            ac.rawDescription = NICK_CAGE_CARD_DESCRIPTION;
             try {
                 if (!atlasChanged) {
                     System.out.println("Atlas has not been changed from original");
                     atlasChanged = true;
 
                     // Create new nick cage texture
-                    TextureRegion tr = new TextureRegion(ImageMaster.loadImage("mods/nick_cage_face_small.png"));
+                    TextureRegion tr = new TextureRegion(ImageMaster.loadImage(NICK_CAGE_FACE_SMALL_PATH));
 
                     // Update artwork
                     Field ca = AbstractCard.class.getDeclaredField("cardAtlas");
                     ca.setAccessible(true);
                     TextureAtlas ta = (TextureAtlas) ca.get(ac);
-                    ta.addRegion("nick_cage", tr);
+                    ta.addRegion(NICK_CAGE_REGION_NAME, tr);
 
 
                     // Update old artwork
                     Field oldCa = AbstractCard.class.getDeclaredField("oldCardAtlas");
                     oldCa.setAccessible(true);
                     TextureAtlas oldTa = (TextureAtlas) oldCa.get(ac);
-                    oldTa.addRegion("nick_cage", tr);
+                    oldTa.addRegion(NICK_CAGE_REGION_NAME, tr);
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -89,7 +94,7 @@ public class PostCardHook {
                                    CardTarget target, DamageInfo.DamageType dType) {
             System.out.println("Post AbstractCard constructor");
             System.out.println("imgUrl: " + imgUrl[0]);
-            imgUrl[0] = "nick_cage";
+            imgUrl[0] = NICK_CAGE_REGION_NAME;
         }
     }
 
