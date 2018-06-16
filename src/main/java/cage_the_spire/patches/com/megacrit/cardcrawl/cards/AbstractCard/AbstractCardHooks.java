@@ -15,11 +15,9 @@ import java.lang.reflect.Field;
 // Code Quality
 // TODO : MOVE PATCH TO INITIALIZE METHOD (POSTFIX) IN ABSTRACT CARD SO THAT IT IS CALLED ONLY ONCE
 // TODO : FIX ANGER NOT RENDERING WITH NICK CAGE ART
-// TODO : MOVE NAME AND DESCRIPTION CODE TO CONSTRUCTOR POSTFIX PATCH
 
 // Features
 // TODO : MAKE CLOSE UP ART ALSO NICK CAGE
-// TODO : WHEN CARDS UPGRADE, KEEP DESCRIPTION AS "NICK CAGE"
 
 public class AbstractCardHooks {
 
@@ -36,8 +34,6 @@ public class AbstractCardHooks {
             System.out.println("Post createCardImage");
 
             AbstractCard ac = (AbstractCard) __obj_instance;
-            ac.name = NICK_CAGE_CARD_NAME;
-            ac.rawDescription = NICK_CAGE_CARD_DESCRIPTION;
             try {
                 if (!atlasChanged) {
                     System.out.println("Updating TextureAtlas with Nick Cage images");
@@ -85,12 +81,30 @@ public class AbstractCardHooks {
                     "com.megacrit.cardcrawl.cards.DamageInfo$DamageType"
             }
     )
-    public static class PostAbstractCardConstructorHook{
+    public static class AbstractCardConstructorHooks {
         public static void Prefix(Object __obj_instance, String id, String name, String jokeUrl, @ByRef String[] imgUrl, int cost,
                                    String rawDescription, CardType type, CardColor color, CardRarity rarity,
                                    CardTarget target, DamageInfo.DamageType dType) {
-            System.out.println("Post AbstractCard Constructor");
+            System.out.println("Pre AbstractCard Constructor");
             imgUrl[0] = NICK_CAGE_REGION_NAME;
+        }
+
+        public static void Postfix(Object __obj_instance, String id, String name, String jokeUrl, String imgUrl, int cost,
+                                   String rawDescription, CardType type, CardColor color, CardRarity rarity,
+                                   CardTarget target, DamageInfo.DamageType dType) {
+            System.out.println("Post AbstractCard Constructor");
+
+            AbstractCard ac = (AbstractCard) __obj_instance;
+            ac.name = NICK_CAGE_CARD_NAME;
+            ac.rawDescription = NICK_CAGE_CARD_DESCRIPTION;
+        }
+    }
+
+    @SpirePatch(cls = "com.megacrit.cardcrawl.cards.AbstractCard", method = "initializeDescription")
+    public static class PreInitializeDescriptionHook {
+        public static void Prefix(Object __obj_instance) {
+            AbstractCard ac = (AbstractCard) __obj_instance;
+            ac.rawDescription = NICK_CAGE_CARD_DESCRIPTION;
         }
     }
 
