@@ -8,7 +8,6 @@ Do you want more Nicolas Cage?!? Of course you do. Here's what you get
 ## Installation
 - Install [ModTheSpire](https://github.com/kiooeht/ModTheSpire/releases)
 - Download the latest release of CageTheSpire and place in your `mods` folder
-- Copy all files from `src/main/resources/` into your `mods` folder
 - Run ModTheSpire to launch Slay The Spire
 
 ## Development
