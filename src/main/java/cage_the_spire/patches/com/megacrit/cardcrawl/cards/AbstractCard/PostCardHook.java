@@ -1,5 +1,6 @@
 package cage_the_spire.patches.com.megacrit.cardcrawl.cards.AbstractCard;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.evacipated.cardcrawl.modthespire.lib.ByRef;
@@ -25,6 +26,7 @@ import java.lang.reflect.Field;
 // TODO : WHEN CARDS UPGRADE, KEEP DESCRIPTION AS "NICK CAGE"
 
 public class PostCardHook {
+
     @SpirePatch(cls = "com.megacrit.cardcrawl.cards.AbstractCard", method = "createCardImage")
     public static class PostCreateCardImageHook {
         private static boolean atlasChanged = false;
@@ -40,32 +42,26 @@ public class PostCardHook {
                     System.out.println("Atlas has not been changed from original");
                     atlasChanged = true;
 
-                    // New artwork
+                    // Create new nick cage texture
+                    TextureRegion tr = new TextureRegion(ImageMaster.loadImage("mods/nick_cage_face_small.png"));
+
+                    // Update artwork
                     Field ca = AbstractCard.class.getDeclaredField("cardAtlas");
                     ca.setAccessible(true);
-
-                    System.out.println("Creating new TextureAtlas");
-                    TextureAtlas ta = new TextureAtlas("mods/cards.atlas");
-                    TextureRegion tr = new TextureRegion(ImageMaster.loadImage("mods/nick_cage_face_small.png"));
+                    TextureAtlas ta = (TextureAtlas) ca.get(ac);
                     ta.addRegion("nick_cage", tr);
 
-                    for (TextureAtlas.AtlasRegion t : ta.getRegions()) {
-                        System.out.println(t.name);
-                    }
 
-                    ca.set(ac, ta);
-
-                    // Old Artwork
+                    // Update old artwork
                     Field oldCa = AbstractCard.class.getDeclaredField("oldCardAtlas");
                     oldCa.setAccessible(true);
-                    oldCa.set(ca, ta);
-
-                    System.out.println("Set new TextureAtlas");
+                    TextureAtlas oldTa = (TextureAtlas) oldCa.get(ac);
+                    oldTa.addRegion("nick_cage", tr);
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 e.printStackTrace();
-                System.out.println("Could not change card atlas with reflection post");
+                System.out.println("Could not add Nick Cage card art to TextureAtlas");
             }
         }
     }
