@@ -85,12 +85,20 @@ public class AbstractCardHooks {
                     "com.megacrit.cardcrawl.cards.DamageInfo$DamageType"
             }
     )
-    public static class PostAbstractCardConstructorHook{
+    public static class PreAbstractCardConstructorHook {
         public static void Prefix(Object __obj_instance, String id, String name, String jokeUrl, @ByRef String[] imgUrl, int cost,
                                    String rawDescription, CardType type, CardColor color, CardRarity rarity,
                                    CardTarget target, DamageInfo.DamageType dType) {
             System.out.println("Post AbstractCard Constructor");
             imgUrl[0] = NICK_CAGE_REGION_NAME;
+        }
+    }
+
+    @SpirePatch(cls = "com.megacrit.cardcrawl.cards.AbstractCard", method = "initializeDescription")
+    public static class PreInitializeDescriptionHook {
+        public static void Prefix(Object __obj_instance) {
+            AbstractCard ac = (AbstractCard) __obj_instance;
+            ac.rawDescription = NICK_CAGE_CARD_DESCRIPTION;
         }
     }
 
