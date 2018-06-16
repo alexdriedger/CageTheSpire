@@ -21,7 +21,7 @@ import java.lang.reflect.Field;
 // TODO : MAKE CLOSE UP ART ALSO NICK CAGE
 // TODO : WHEN CARDS UPGRADE, KEEP DESCRIPTION AS "NICK CAGE"
 
-public class PostCardHook {
+public class AbstractCardHooks {
 
     private static final String NICK_CAGE_FACE_SMALL_PATH = "nick_cage_face_small.png";
     private static final String NICK_CAGE_REGION_NAME = "status/nickCage";
@@ -97,7 +97,7 @@ public class PostCardHook {
 }
 
 //@SpirePatch(cls="com.megacrit.cardcrawl.cards.AbstractCard", method="initialize")
-//public class PostCardHook {
+//public class AbstractCardHooks {
 //    public static void Prefix(Object __obj_instance) {
 //        System.out.println("\n\n\n\nInitializing card atlas\n\n\n\n");
 //        AbstractCard ac = (AbstractCard) __obj_instance;
