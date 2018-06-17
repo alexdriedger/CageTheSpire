@@ -16,9 +16,6 @@ import java.lang.reflect.Field;
 // TODO : MOVE PATCH TO INITIALIZE METHOD (POSTFIX) IN ABSTRACT CARD SO THAT IT IS CALLED ONLY ONCE
 // TODO : FIX ANGER NOT RENDERING WITH NICK CAGE ART
 
-// Features
-// TODO : MAKE CLOSE UP ART ALSO NICK CAGE
-
 public class AbstractCardHooks {
 
     private static final String NICK_CAGE_FACE_SMALL_PATH = "nick_cage_face_small.png";
@@ -30,10 +27,8 @@ public class AbstractCardHooks {
     public static class PostCreateCardImageHook {
         private static boolean atlasChanged = false;
 
-        public static void Prefix(Object __obj_instance) {
+        public static void Prefix(AbstractCard _instance) {
             System.out.println("Post createCardImage");
-
-            AbstractCard ac = (AbstractCard) __obj_instance;
             try {
                 if (!atlasChanged) {
                     System.out.println("Updating TextureAtlas with Nick Cage images");
@@ -46,14 +41,14 @@ public class AbstractCardHooks {
                     // Update artwork
                     Field ca = AbstractCard.class.getDeclaredField("cardAtlas");
                     ca.setAccessible(true);
-                    TextureAtlas ta = (TextureAtlas) ca.get(ac);
+                    TextureAtlas ta = (TextureAtlas) ca.get(_instance);
                     ta.addRegion(NICK_CAGE_REGION_NAME, tr);
 
 
                     // Update old artwork
                     Field oldCa = AbstractCard.class.getDeclaredField("oldCardAtlas");
                     oldCa.setAccessible(true);
-                    TextureAtlas oldTa = (TextureAtlas) oldCa.get(ac);
+                    TextureAtlas oldTa = (TextureAtlas) oldCa.get(_instance);
                     oldTa.addRegion(NICK_CAGE_REGION_NAME, tr);
                 }
             } catch (Exception e) {
@@ -82,29 +77,27 @@ public class AbstractCardHooks {
             }
     )
     public static class AbstractCardConstructorHooks {
-        public static void Prefix(Object __obj_instance, String id, String name, String jokeUrl, @ByRef String[] imgUrl, int cost,
+        public static void Prefix(AbstractCard _instance, String id, String name, String jokeUrl, @ByRef String[] imgUrl, int cost,
                                    String rawDescription, CardType type, CardColor color, CardRarity rarity,
                                    CardTarget target, DamageInfo.DamageType dType) {
             System.out.println("Pre AbstractCard Constructor");
             imgUrl[0] = NICK_CAGE_REGION_NAME;
         }
 
-        public static void Postfix(Object __obj_instance, String id, String name, String jokeUrl, String imgUrl, int cost,
+        public static void Postfix(AbstractCard _instance, String id, String name, String jokeUrl, String imgUrl, int cost,
                                    String rawDescription, CardType type, CardColor color, CardRarity rarity,
                                    CardTarget target, DamageInfo.DamageType dType) {
             System.out.println("Post AbstractCard Constructor");
 
-            AbstractCard ac = (AbstractCard) __obj_instance;
-            ac.name = NICK_CAGE_CARD_NAME;
-            ac.rawDescription = NICK_CAGE_CARD_DESCRIPTION;
+            _instance.name = NICK_CAGE_CARD_NAME;
+            _instance.rawDescription = NICK_CAGE_CARD_DESCRIPTION;
         }
     }
 
     @SpirePatch(cls = "com.megacrit.cardcrawl.cards.AbstractCard", method = "initializeDescription")
     public static class PreInitializeDescriptionHook {
-        public static void Prefix(Object __obj_instance) {
-            AbstractCard ac = (AbstractCard) __obj_instance;
-            ac.rawDescription = NICK_CAGE_CARD_DESCRIPTION;
+        public static void Prefix(AbstractCard _instance) {
+            _instance.rawDescription = NICK_CAGE_CARD_DESCRIPTION;
         }
     }
 
