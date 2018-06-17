@@ -33,9 +33,9 @@ public class SingleCardViewPopupHooks {
             }
     )
     public static class PostOpenFirstHook {
-        public static void Postfix(Object __obj_instance, AbstractCard card) {
+        public static void Postfix(SingleCardViewPopup _instance, AbstractCard card) {
             System.out.println("Post open(AbstractCard card)");
-            setPortraitImg((SingleCardViewPopup) __obj_instance);
+            setPortraitImg(_instance);
         }
     }
 
@@ -48,9 +48,9 @@ public class SingleCardViewPopupHooks {
             }
     )
     public static class PostOpenSecondHook {
-        public static void Postfix(Object __obj_instance, AbstractCard card, CardGroup group) {
+        public static void Postfix(SingleCardViewPopup _instance, AbstractCard card, CardGroup group) {
             System.out.println("Post open(AbstractCard card, CardGroup group)");
-            setPortraitImg((SingleCardViewPopup) __obj_instance);
+            setPortraitImg(_instance);
         }
     }
 }
