@@ -1,0 +1,10 @@
+{
+  "modid": "cagethespire",
+  "name": "CageTheSpire",
+  "author_list": ["alexdriedger"],
+  "description": "Adds more Nicolas Cage to the game",
+  "version": "1.0.0",
+  "sts_version": "06-17-2018",
+  "mts_version": "2.7.0",
+  "update_json": "https://api.github.com/repos/alexdriedger/CageTheSpire/releases/latest"
+}
