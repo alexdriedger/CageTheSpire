@@ -23,38 +23,49 @@ public class AbstractCardHooks {
     private static final String NICK_CAGE_CARD_NAME = "Nick Cage";
     private static final String NICK_CAGE_CARD_DESCRIPTION = "Nick Cage";
 
+    private static void updateCardAtlas(AbstractCard _instance) {
+        try {
+            System.out.println("Updating TextureAtlas with Nick Cage images");
+
+            // Create new nick cage texture
+            Texture t = new Texture(Gdx.files.internal(NICK_CAGE_FACE_SMALL_PATH));
+            TextureRegion tr = new TextureRegion(t);
+
+            // Update artwork
+            Field ca = AbstractCard.class.getDeclaredField("cardAtlas");
+            ca.setAccessible(true);
+            TextureAtlas ta = (TextureAtlas) ca.get(_instance);
+            ta.addRegion(NICK_CAGE_REGION_NAME, tr);
+
+
+            // Update old artwork
+            Field oldCa = AbstractCard.class.getDeclaredField("oldCardAtlas");
+            oldCa.setAccessible(true);
+            TextureAtlas oldTa = (TextureAtlas) oldCa.get(_instance);
+            oldTa.addRegion(NICK_CAGE_REGION_NAME, tr);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            System.out.println("Could not add Nick Cage card art to TextureAtlas");
+        }
+    }
+
+//    @SpirePatch(cls = "com.megacrit.cardcrawl.cards.AbstractCard", method = "initialize")
+//    public static class PostInitializeHook {
+//        public static void Postfix(AbstractCard _instance) {
+//
+//        }
+//    }
+
     @SpirePatch(cls = "com.megacrit.cardcrawl.cards.AbstractCard", method = "createCardImage")
     public static class PostCreateCardImageHook {
         private static boolean atlasChanged = false;
 
         public static void Prefix(AbstractCard _instance) {
             System.out.println("Post createCardImage");
-            try {
-                if (!atlasChanged) {
-                    System.out.println("Updating TextureAtlas with Nick Cage images");
-                    atlasChanged = true;
-
-                    // Create new nick cage texture
-                    Texture t = new Texture(Gdx.files.internal(NICK_CAGE_FACE_SMALL_PATH));
-                    TextureRegion tr = new TextureRegion(t);
-
-                    // Update artwork
-                    Field ca = AbstractCard.class.getDeclaredField("cardAtlas");
-                    ca.setAccessible(true);
-                    TextureAtlas ta = (TextureAtlas) ca.get(_instance);
-                    ta.addRegion(NICK_CAGE_REGION_NAME, tr);
-
-
-                    // Update old artwork
-                    Field oldCa = AbstractCard.class.getDeclaredField("oldCardAtlas");
-                    oldCa.setAccessible(true);
-                    TextureAtlas oldTa = (TextureAtlas) oldCa.get(_instance);
-                    oldTa.addRegion(NICK_CAGE_REGION_NAME, tr);
-                }
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                e.printStackTrace();
-                System.out.println("Could not add Nick Cage card art to TextureAtlas");
+            if (!atlasChanged) {
+                atlasChanged = true;
+                updateCardAtlas(_instance);
             }
         }
     }
