@@ -9,13 +9,8 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.AbstractCard.*;
 import com.megacrit.cardcrawl.cards.DamageInfo;
-import com.megacrit.cardcrawl.cards.red.Bash;
 
 import java.lang.reflect.Field;
-
-// Code Quality
-// TODO : MOVE PATCH TO INITIALIZE METHOD (POSTFIX) IN ABSTRACT CARD SO THAT IT IS CALLED ONLY ONCE
-// TODO : FIX ANGER NOT RENDERING WITH NICK CAGE ART
 
 public class AbstractCardHooks {
 
@@ -57,19 +52,6 @@ public class AbstractCardHooks {
             updateCardAtlas();
         }
     }
-
-//    @SpirePatch(cls = "com.megacrit.cardcrawl.cards.AbstractCard", method = "createCardImage")
-//    public static class PostCreateCardImageHook {
-//        private static boolean atlasChanged = false;
-//
-//        public static void Prefix(AbstractCard _instance) {
-//            System.out.println("Post createCardImage");
-//            if (!atlasChanged) {
-//                atlasChanged = true;
-//                updateCardAtlas();
-//            }
-//        }
-//    }
 
     @SpirePatch(
             cls = "com.megacrit.cardcrawl.cards.AbstractCard",
@@ -114,21 +96,3 @@ public class AbstractCardHooks {
     }
 
 }
-
-//@SpirePatch(cls="com.megacrit.cardcrawl.cards.AbstractCard", method="initialize")
-//public class AbstractCardHooks {
-//    public static void Prefix(Object __obj_instance) {
-//        System.out.println("\n\n\n\nInitializing card atlas\n\n\n\n");
-//        AbstractCard ac = (AbstractCard) __obj_instance;
-//        try {
-//            Field ca = AbstractCard.class.getDeclaredField("cardAtlas");
-//            ca.setAccessible(true);
-//            TextureAtlas ta = new TextureAtlas("mods/cards.atlas");
-//            ca.set(ac, ta);
-//        } catch(Exception e) {
-//            System.out.println(e.getMessage());
-//            e.printStackTrace();
-//            System.out.println("Could not change card atlas with reflection post");
-//        }
-//    }
-//}
