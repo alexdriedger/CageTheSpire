@@ -74,15 +74,12 @@ public class AbstractCardHooks {
         public static void Prefix(AbstractCard _instance, String id, String name, String jokeUrl, @ByRef String[] imgUrl, int cost,
                                    String rawDescription, CardType type, CardColor color, CardRarity rarity,
                                    CardTarget target, DamageInfo.DamageType dType) {
-            System.out.println("Pre AbstractCard Constructor");
             imgUrl[0] = NICK_CAGE_REGION_NAME;
         }
 
         public static void Postfix(AbstractCard _instance, String id, String name, String jokeUrl, String imgUrl, int cost,
                                    String rawDescription, CardType type, CardColor color, CardRarity rarity,
                                    CardTarget target, DamageInfo.DamageType dType) {
-            System.out.println("Post AbstractCard Constructor");
-
             _instance.name = NICK_CAGE_CARD_NAME;
             _instance.rawDescription = NICK_CAGE_CARD_DESCRIPTION;
         }

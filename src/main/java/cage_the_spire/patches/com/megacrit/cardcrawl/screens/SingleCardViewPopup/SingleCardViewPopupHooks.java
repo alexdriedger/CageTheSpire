@@ -34,7 +34,6 @@ public class SingleCardViewPopupHooks {
     )
     public static class PostOpenFirstHook {
         public static void Postfix(SingleCardViewPopup _instance, AbstractCard card) {
-            System.out.println("Post open(AbstractCard card)");
             setPortraitImg(_instance);
         }
     }
@@ -49,7 +48,6 @@ public class SingleCardViewPopupHooks {
     )
     public static class PostOpenSecondHook {
         public static void Postfix(SingleCardViewPopup _instance, AbstractCard card, CardGroup group) {
-            System.out.println("Post open(AbstractCard card, CardGroup group)");
             setPortraitImg(_instance);
         }
     }
