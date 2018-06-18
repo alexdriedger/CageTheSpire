@@ -9,6 +9,7 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.AbstractCard.*;
 import com.megacrit.cardcrawl.cards.DamageInfo;
+import com.megacrit.cardcrawl.cards.red.Bash;
 
 import java.lang.reflect.Field;
 
@@ -23,7 +24,7 @@ public class AbstractCardHooks {
     private static final String NICK_CAGE_CARD_NAME = "Nick Cage";
     private static final String NICK_CAGE_CARD_DESCRIPTION = "Nick Cage";
 
-    private static void updateCardAtlas(AbstractCard _instance) {
+    private static void updateCardAtlas() {
         try {
             System.out.println("Updating TextureAtlas with Nick Cage images");
 
@@ -34,14 +35,14 @@ public class AbstractCardHooks {
             // Update artwork
             Field ca = AbstractCard.class.getDeclaredField("cardAtlas");
             ca.setAccessible(true);
-            TextureAtlas ta = (TextureAtlas) ca.get(_instance);
+            TextureAtlas ta = (TextureAtlas) ca.get(null);
             ta.addRegion(NICK_CAGE_REGION_NAME, tr);
 
 
             // Update old artwork
             Field oldCa = AbstractCard.class.getDeclaredField("oldCardAtlas");
             oldCa.setAccessible(true);
-            TextureAtlas oldTa = (TextureAtlas) oldCa.get(_instance);
+            TextureAtlas oldTa = (TextureAtlas) oldCa.get(null);
             oldTa.addRegion(NICK_CAGE_REGION_NAME, tr);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -50,25 +51,25 @@ public class AbstractCardHooks {
         }
     }
 
-//    @SpirePatch(cls = "com.megacrit.cardcrawl.cards.AbstractCard", method = "initialize")
-//    public static class PostInitializeHook {
-//        public static void Postfix(AbstractCard _instance) {
-//
-//        }
-//    }
-
-    @SpirePatch(cls = "com.megacrit.cardcrawl.cards.AbstractCard", method = "createCardImage")
-    public static class PostCreateCardImageHook {
-        private static boolean atlasChanged = false;
-
-        public static void Prefix(AbstractCard _instance) {
-            System.out.println("Post createCardImage");
-            if (!atlasChanged) {
-                atlasChanged = true;
-                updateCardAtlas(_instance);
-            }
+    @SpirePatch(cls = "com.megacrit.cardcrawl.cards.AbstractCard", method = "initialize")
+    public static class PostInitializeHook {
+        public static void Postfix() {
+            updateCardAtlas();
         }
     }
+
+//    @SpirePatch(cls = "com.megacrit.cardcrawl.cards.AbstractCard", method = "createCardImage")
+//    public static class PostCreateCardImageHook {
+//        private static boolean atlasChanged = false;
+//
+//        public static void Prefix(AbstractCard _instance) {
+//            System.out.println("Post createCardImage");
+//            if (!atlasChanged) {
+//                atlasChanged = true;
+//                updateCardAtlas();
+//            }
+//        }
+//    }
 
     @SpirePatch(
             cls = "com.megacrit.cardcrawl.cards.AbstractCard",
