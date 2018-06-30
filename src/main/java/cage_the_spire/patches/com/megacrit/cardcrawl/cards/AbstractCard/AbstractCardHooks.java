@@ -1,5 +1,6 @@
 package cage_the_spire.patches.com.megacrit.cardcrawl.cards.AbstractCard;
 
+import cage_the_spire.NicolasCageCustomMod;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -9,6 +10,7 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.AbstractCard.*;
 import com.megacrit.cardcrawl.cards.DamageInfo;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 
 import java.lang.reflect.Field;
 
@@ -74,21 +76,27 @@ public class AbstractCardHooks {
         public static void Prefix(AbstractCard _instance, String id, String name, String jokeUrl, @ByRef String[] imgUrl, int cost,
                                    String rawDescription, CardType type, CardColor color, CardRarity rarity,
                                    CardTarget target, DamageInfo.DamageType dType) {
-            imgUrl[0] = NICK_CAGE_REGION_NAME;
+            if (NicolasCageCustomMod.isActive()) {
+                imgUrl[0] = NICK_CAGE_REGION_NAME;
+            }
         }
 
         public static void Postfix(AbstractCard _instance, String id, String name, String jokeUrl, String imgUrl, int cost,
                                    String rawDescription, CardType type, CardColor color, CardRarity rarity,
                                    CardTarget target, DamageInfo.DamageType dType) {
-            _instance.name = NICK_CAGE_CARD_NAME;
-            _instance.rawDescription = NICK_CAGE_CARD_DESCRIPTION;
+            if (NicolasCageCustomMod.isActive()) {
+                _instance.name = NICK_CAGE_CARD_NAME;
+                _instance.rawDescription = NICK_CAGE_CARD_DESCRIPTION;
+            }
         }
     }
 
     @SpirePatch(cls = "com.megacrit.cardcrawl.cards.AbstractCard", method = "initializeDescription")
     public static class PreInitializeDescriptionHook {
         public static void Prefix(AbstractCard _instance) {
-            _instance.rawDescription = NICK_CAGE_CARD_DESCRIPTION;
+            if (NicolasCageCustomMod.isActive()) {
+                _instance.rawDescription = NICK_CAGE_CARD_DESCRIPTION;
+            }
         }
     }
 

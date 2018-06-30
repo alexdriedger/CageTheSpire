@@ -7,7 +7,7 @@ import com.megacrit.cardcrawl.screens.custom.CustomMod;
 
 public class NicolasCageCustomMod extends CustomMod {
 
-    private static final String MOD_ID = "NICK_CAGE_MOD";
+    public static final String MOD_ID = "MOD_ID";
     private static final String MOD_NAME = "Cage The Spire";
     private static final String MOD_DESCRIPTION = "All cards artwork, title and description are turned into Nicolas Cage";
 
@@ -21,6 +21,10 @@ public class NicolasCageCustomMod extends CustomMod {
         this.name = MOD_NAME;
         this.description = MOD_DESCRIPTION;
         this.hb = new Hitbox(1000.0F * Settings.scale, 90.0F * Settings.scale);
-        this.isDailyMod = false;
+        this.isDailyMod = true; // So mod can be detected in CustomTrial
+    }
+
+    public static boolean isActive() {
+        return CardCrawlGame.trial != null && CardCrawlGame.trial.dailyModIDs().contains(NicolasCageCustomMod.MOD_ID);
     }
 }
