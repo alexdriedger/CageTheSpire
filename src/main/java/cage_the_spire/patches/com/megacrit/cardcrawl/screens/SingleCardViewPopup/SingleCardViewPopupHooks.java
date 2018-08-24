@@ -26,10 +26,10 @@ public class SingleCardViewPopupHooks {
     }
 
     @SpirePatch(
-            cls = "com.megacrit.cardcrawl.screens.SingleCardViewPopup",
+            clz = SingleCardViewPopup.class,
             method = "open",
-            paramtypes = {
-                    "com.megacrit.cardcrawl.cards.AbstractCard"
+            paramtypez = {
+                    AbstractCard.class
             }
     )
     public static class PostOpenFirstHook {
@@ -41,11 +41,11 @@ public class SingleCardViewPopupHooks {
     }
 
     @SpirePatch(
-            cls = "com.megacrit.cardcrawl.screens.SingleCardViewPopup",
+            clz = SingleCardViewPopup.class,
             method = "open",
-            paramtypes = {
-                    "com.megacrit.cardcrawl.cards.AbstractCard",
-                    "com.megacrit.cardcrawl.cards.CardGroup"
+            paramtypez = {
+                    AbstractCard.class,
+                    CardGroup.class,
             }
     )
     public static class PostOpenSecondHook {

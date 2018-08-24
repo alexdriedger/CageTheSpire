@@ -11,7 +11,7 @@ import java.util.List;
 public class CustomModeScreenHooks {
 
     @SpirePatch(
-            cls = "com.megacrit.cardcrawl.screens.custom.CustomModeScreen",
+            clz = CustomModeScreen.class,
             method = "initializeMods"
     )
     public static class PostInitializeModsHook {
