@@ -1,6 +1,6 @@
 package cage_the_spire.patches.com.megacrit.cardcrawl.cards.AbstractCard;
 
-import cage_the_spire.NicolasCageCustomMod;
+import cage_the_spire.CageTheSpire;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -76,7 +76,7 @@ public class AbstractCardHooks {
         public static void Prefix(AbstractCard _instance, String id, String name, String jokeUrl, @ByRef String[] imgUrl, int cost,
                                    String rawDescription, CardType type, CardColor color, CardRarity rarity,
                                    CardTarget target, DamageInfo.DamageType dType) {
-            if (NicolasCageCustomMod.isActive()) {
+            if (CageTheSpire.isCageCosmeticActive() || CageTheSpire.isCageFullActive()) {
                 imgUrl[0] = NICK_CAGE_REGION_NAME;
             }
         }
@@ -84,7 +84,7 @@ public class AbstractCardHooks {
         public static void Postfix(AbstractCard _instance, String id, String name, String jokeUrl, String imgUrl, int cost,
                                    String rawDescription, CardType type, CardColor color, CardRarity rarity,
                                    CardTarget target, DamageInfo.DamageType dType) {
-            if (NicolasCageCustomMod.isActive()) {
+            if (CageTheSpire.isCageFullActive()) {
                 _instance.name = NICK_CAGE_CARD_NAME;
                 _instance.rawDescription = NICK_CAGE_CARD_DESCRIPTION;
             }
@@ -94,7 +94,7 @@ public class AbstractCardHooks {
     @SpirePatch(cls = "com.megacrit.cardcrawl.cards.AbstractCard", method = "initializeDescription")
     public static class PreInitializeDescriptionHook {
         public static void Prefix(AbstractCard _instance) {
-            if (NicolasCageCustomMod.isActive()) {
+            if (CageTheSpire.isCageFullActive()) {
                 _instance.rawDescription = NICK_CAGE_CARD_DESCRIPTION;
             }
         }

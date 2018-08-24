@@ -1,7 +1,6 @@
 package cage_the_spire.patches.com.megacrit.cardcrawl.screens.SingleCardViewPopup;
 
-import cage_the_spire.NicolasCageCustomMod;
-import cage_the_spire.patches.com.megacrit.cardcrawl.cards.AbstractCard.AbstractCardHooks;
+import cage_the_spire.CageTheSpire;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
@@ -35,7 +34,7 @@ public class SingleCardViewPopupHooks {
     )
     public static class PostOpenFirstHook {
         public static void Postfix(SingleCardViewPopup _instance, AbstractCard card) {
-            if (NicolasCageCustomMod.isActive()) {
+            if (CageTheSpire.isCageCosmeticActive() || CageTheSpire.isCageFullActive()) {
                 setPortraitImg(_instance);
             }
         }
@@ -51,7 +50,7 @@ public class SingleCardViewPopupHooks {
     )
     public static class PostOpenSecondHook {
         public static void Postfix(SingleCardViewPopup _instance, AbstractCard card, CardGroup group) {
-            if (NicolasCageCustomMod.isActive()) {
+            if (CageTheSpire.isCageCosmeticActive() || CageTheSpire.isCageFullActive()) {
                 setPortraitImg(_instance);
             }
         }

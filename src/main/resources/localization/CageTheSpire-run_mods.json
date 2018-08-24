@@ -1,6 +1,11 @@
 {
   "Cage Cosmetic": {
-    "NAME": "CageTheSpire",
-    "DESCRIPTION": "Cages the spire"
+    "NAME": "Cage Cosmetic",
+    "DESCRIPTION": "Changes artwork to be Nicolas Cage themed. Does not affect gameplay"
+  },
+
+  "Cage The Spire": {
+    "NAME": "Cage The Spire",
+    "DESCRIPTION": "Everything is turned into Nicolas Cage. Affects gameplay"
   }
 }

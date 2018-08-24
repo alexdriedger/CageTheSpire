@@ -1,12 +1,10 @@
 package cage_the_spire.patches.com.megacrit.cardcrawl.screens.custom.CustomModeScreen;
 
-import cage_the_spire.NicolasCageCustomMod;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.localization.LocalizedStrings;
 import com.megacrit.cardcrawl.localization.RunModStrings;
 import com.megacrit.cardcrawl.screens.custom.CustomMod;
 import com.megacrit.cardcrawl.screens.custom.CustomModeScreen;
-import org.lwjgl.Sys;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -25,8 +23,10 @@ public class CustomModeScreenHooks {
                 Field modList = CustomModeScreen.class.getDeclaredField("modList");
                 modList.setAccessible(true);
                 List<CustomMod> l = (List<CustomMod>) modList.get(_instance);
-//                l.add(new NicolasCageCustomMod());
-                l.add(new CustomMod("Cage Cosmetic", "r", false));
+
+                // TODO : MAKE MOD IDS CONSTANTS
+                l.add(0, new CustomMod("Cage Cosmetic", "b", false));
+                l.add(1, new CustomMod("Cage The Spire", "r", false));
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 e.printStackTrace();
