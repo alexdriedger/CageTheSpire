@@ -25,8 +25,8 @@ public class CustomModeScreenHooks {
                 List<CustomMod> l = (List<CustomMod>) modList.get(_instance);
 
                 // TODO : MAKE MOD IDS CONSTANTS
-                l.add(0, new CustomMod("Cage Cosmetic", "b", false));
-                l.add(1, new CustomMod("Cage The Spire", "r", false));
+                l.add(0, new CustomMod("Cage Cosmetic", "b", true));
+                l.add(1, new CustomMod("Cage The Spire", "r", true));
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 e.printStackTrace();
