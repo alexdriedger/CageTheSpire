@@ -48,7 +48,7 @@ public class AbstractCardHooks {
         }
     }
 
-    @SpirePatch(cls = "com.megacrit.cardcrawl.cards.AbstractCard", method = "initialize")
+    @SpirePatch(clz = AbstractCard.class, method = "initialize")
     public static class PostInitializeHook {
         public static void Postfix() {
             updateCardAtlas();
@@ -56,20 +56,20 @@ public class AbstractCardHooks {
     }
 
     @SpirePatch(
-            cls = "com.megacrit.cardcrawl.cards.AbstractCard",
+            clz = AbstractCard.class,
             method = SpirePatch.CONSTRUCTOR,
-            paramtypes = {
-                    "java.lang.String",
-                    "java.lang.String",
-                    "java.lang.String",
-                    "java.lang.String",
-                    "int",
-                    "java.lang.String",
-                    "com.megacrit.cardcrawl.cards.AbstractCard$CardType",
-                    "com.megacrit.cardcrawl.cards.AbstractCard$CardColor",
-                    "com.megacrit.cardcrawl.cards.AbstractCard$CardRarity",
-                    "com.megacrit.cardcrawl.cards.AbstractCard$CardTarget",
-                    "com.megacrit.cardcrawl.cards.DamageInfo$DamageType"
+            paramtypez = {
+                    String.class,
+                    String.class,
+                    String.class,
+                    String.class,
+                    int.class,
+                    String.class,
+                    AbstractCard.CardType.class,
+                    AbstractCard.CardColor.class,
+                    AbstractCard.CardRarity.class,
+                    AbstractCard.CardTarget.class,
+                    DamageInfo.DamageType.class
             }
     )
     public static class AbstractCardConstructorHooks {
@@ -91,7 +91,7 @@ public class AbstractCardHooks {
         }
     }
 
-    @SpirePatch(cls = "com.megacrit.cardcrawl.cards.AbstractCard", method = "initializeDescription")
+    @SpirePatch(clz = AbstractCard.class, method = "initializeDescription")
     public static class PreInitializeDescriptionHook {
         public static void Prefix(AbstractCard _instance) {
             if (CageTheSpire.isCageFullActive()) {
