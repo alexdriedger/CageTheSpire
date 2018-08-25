@@ -21,8 +21,8 @@ public class CustomModeScreenHooks {
                 Field modList = CustomModeScreen.class.getDeclaredField("modList");
                 modList.setAccessible(true);
                 List<CustomMod> l = (List<CustomMod>) modList.get(_instance);
-                l.add(0, new CustomMod(CageTheSpire.CAGE_COSMETIC_ID, "b", true));
-                l.add(1, new CustomMod(CageTheSpire.CAGE_FULL_EFFECT_ID, "r", true));
+                l.add(0, new CustomMod(CageTheSpire.CAGE_COSMETIC_ID, "p", true));
+                l.add(1, new CustomMod(CageTheSpire.CAGE_FULL_EFFECT_ID, "p", true));
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 e.printStackTrace();
